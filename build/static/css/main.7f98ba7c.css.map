@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.7f98ba7c.css","mappings":"AAAA,EACE,QAAS,CACT,SACF,CCHA,OAGE,oBAAqB,CADrB,YAAa,CADb,WAGF","sources":["index.css","App.css"],"sourcesContent":["*{\n  margin: 0;\n  padding: 0;\n}","#video{\r\n  width: 480px;\r\n  height: 280px;\r\n  background-color: red;\r\n}"],"names":[],"sourceRoot":""}
