@@ -6,19 +6,12 @@ let PEERID;
 
 const electron = window.electron;
 
-
-
-  const peer = new Peer();
-
-
-
-
-
+// Peer outside generating key only once
+const peer = new Peer();
 
 
 function App() {
 
-  const peer = new Peer();
   const [peerId, setPeerId] = useState("not updated");
   const [remotePeerIdValue, setRemotePeerIdValue] = useState("");
   // const remoteVideoRef = useRef(null);
