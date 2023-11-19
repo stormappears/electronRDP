@@ -2,8 +2,17 @@ const { app, BrowserWindow, desktopCapturer, ipcMain } = require("electron");
 const url = require("url");
 const path = require("path");
 const { session } = require("electron"); 
+//import socket io
+const io = require("socket.io-client")
 
-// Create a peer connection
+// craete socket io connection
+
+const  socket = io.connect("http://localhost:3001")
+
+function sendMessage(room){
+  socket.emit("send_message" , { room})
+  console.log(room , " sent as data to socket ")
+}
 
 function createMainWindow() {
   const mainWindow = new BrowserWindow({
@@ -146,7 +155,10 @@ function UpsertKeyValue(obj, keyToChange, value) {
 
 // Getting Data From Renderer
 ipcMain.on('get-id', (event, data)=>{
+  sendMessage(data)
   console.log("hey its key data :" , data )
+
+
 })
 
 

@@ -5,7 +5,6 @@
   "description": "Hey its my electron app",
   "main": "main.js",
   "loadingGif": "./load.gif",
-  
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -13,7 +12,6 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
-
   "build": {
     "win": {
       "target": [
@@ -26,12 +24,11 @@
         }
       ]
     },
-    "files" : [
+    "files": [
       "!release-builds",
       "!test.*"
     ]
   },
-
   "keywords": [],
   "author": "ron dyop",
   "license": "MIT",
@@ -45,6 +42,9 @@
     "electron": "^27.1.0"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "cors": "^2.8.5",
+    "electron-squirrel-startup": "^1.0.0",
+    "express": "^4.18.2",
+    "socket.io-client": "^4.7.2"
   }
 }
