@@ -74,12 +74,14 @@ socket.on("receive_message", (data) => {
 
 //mouse click left (listener)
 socket.on("mouse_clickl_recive", (data) => {
+  robot.mouseClick();
   console.log("mouse clicked left")
 });  
 
 //mouse click right (listener)
 socket.on("mouse_clickr_recive", (data) => {
   console.log("mouse clicked: right  ")
+  robot.mouseClick("right");
 });
 
 //mouse codinates
