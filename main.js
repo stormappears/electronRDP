@@ -6,13 +6,83 @@ const { session } = require("electron");
 const io = require("socket.io-client")
 
 // craete socket io connection
-
 const  socket = io.connect("http://localhost:3001")
 
-function sendMessage(room){
-  socket.emit("send_message" , { room})
-  console.log(room , " sent as data to socket ")
+//variables for socket io
+let room = "xyz";
+let message = "hey";
+
+
+
+//IPC RENDERER TO MAIN
+
+
+
+// Getting Data From Renderer
+ipcMain.on('get-id', (event, data)=>{
+  joinRoom(data)
+  console.log("hey its key data :" , data )
+})
+
+
+
+// Join Room Function
+
+function joinRoom (data){
+  if( data !== ""){
+    socket.emit("join_room" , data)
+  }
+
+  setInterval(()=>{
+    sendMessage(data)
+  }, 4000)
+
 }
+
+
+// Sending Functions
+
+  // message user
+  function sendMessage(roomdata){
+    socket.emit("send_message", { message ,  roomdata })
+  }
+
+
+//Mouse ClickL Event
+function mouseClickL(roomdata){
+        socket.emit("mouseclickl" , {  roomdata })
+} 
+
+//Mouse ClickR Event
+function mouseClickR(roomdata){
+    socket.emit("mouseclickr" , {  roomdata })
+}
+
+
+ 
+// socket listeners start
+
+socket.on("receive_message", (data) => {
+  console.log(data.message)
+}); 
+
+//mouse click left (listener)
+socket.on("mouse_clickl_recive", (data) => {
+  console.log("mouse clicked left")
+});  
+
+//mouse click right (listener)
+socket.on("mouse_clickr_recive", (data) => {
+  console.log("mouse clicked: right  ")
+});
+
+//mouse codinates
+socket.on("mouse_cord", (data) => {
+  console.log("mouse x : "  + data.mousex + "mouse y : " + data.mousey)
+});
+
+// socket listeners end
+
 
 function createMainWindow() {
   const mainWindow = new BrowserWindow({
@@ -147,21 +217,6 @@ function UpsertKeyValue(obj, keyToChange, value) {
         }
       });
   });
-
-
-//IPC RENDERER TO MAIN
-
-
-
-// Getting Data From Renderer
-ipcMain.on('get-id', (event, data)=>{
-  sendMessage(data)
-  console.log("hey its key data :" , data )
-
-
-})
-
-
 
 }
 

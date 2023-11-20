@@ -12,7 +12,7 @@ const peer = new Peer();
 
 function App() {
 
-  const [peerId, setPeerId] = useState("not updated");
+  const [peerId, setPeerId] = useState(null);
   const [remotePeerIdValue, setRemotePeerIdValue] = useState("");
   // const remoteVideoRef = useRef(null);
   const currentUserVideoRef = useRef(null);
