@@ -84,8 +84,21 @@ socket.on("mouse_clickr_recive", (data) => {
 
 //mouse codinates
 socket.on("mouse_cord", (data) => {
-  robot.moveMouse(data.mousex, data.mousey);
-  console.log("mouse x : "  + data.mousex + "mouse y : " + data.mousey)
+  const { screen } = require('electron');
+  const primaryDisplay = screen.getPrimaryDisplay();
+  
+  const { width, height } = primaryDisplay.workAreaSize;
+  const ratioX = width / data.clientWidth
+  const ratioY = height / data.clientHeight
+
+  const hostX = data.clientX * ratioX
+  const hostY = data.clientY * ratioY
+
+  robot.moveMouse(hostX, hostY)
+  console.log(`Current screen width: ${width}`);
+  console.log(`Current screen height: ${height}`);
+
+  console.log("mouse x : "  + hostX + "mouse y : " + ratioX)
 });
 
 // socket listeners end
@@ -107,6 +120,11 @@ function createMainWindow() {
       
     },
   });
+
+  //get screen information electron
+
+  
+
 
 
 
