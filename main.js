@@ -2,6 +2,8 @@ const { app, BrowserWindow, desktopCapturer, ipcMain } = require("electron");
 const url = require("url");
 const path = require("path");
 const { session } = require("electron"); 
+//robots js import
+var robot = require("robotjs");
 //import socket io
 const io = require("socket.io-client")
 
@@ -11,6 +13,10 @@ const  socket = io.connect("http://localhost:3001")
 //variables for socket io
 let room = "xyz";
 let message = "hey";
+
+//robots js speed us mouse function
+// Speed up the mouse.
+robot.setMouseDelay(2);
 
 
 
@@ -78,6 +84,7 @@ socket.on("mouse_clickr_recive", (data) => {
 
 //mouse codinates
 socket.on("mouse_cord", (data) => {
+  robot.moveMouse(data.mousex, data.mousey);
   console.log("mouse x : "  + data.mousex + "mouse y : " + data.mousey)
 });
 
