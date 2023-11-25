@@ -127,6 +127,18 @@ peer.on("connection", function (conn) {
   }
 
 
+  //clipboard copied alert notification
+
+ //for mouse enter
+  const handleCopyHover1 = () =>{
+    document.getElementById("keyarea_key").innerText = "Key Already Copied To Clipboard"
+  }
+  
+  //for mouse leave
+  const handleCopyHover12 = () =>{
+    document.getElementById("keyarea_key").innerText = peerId
+  }
+
 
 
   return (
@@ -135,8 +147,8 @@ peer.on("connection", function (conn) {
       <div className="logo">
         <h1 className="logo_ms">Microsoft</h1>
       </div>
-      <div className="keyarea" onClick={copyOnClick}>
-      <h2 className="keyarea_key" >{peerId}</h2>
+      <div className="keyarea" onMouseEnter={handleCopyHover1} onMouseLeave={handleCopyHover12} onClick={copyOnClick}>
+      <h2 className="keyarea_key" id="keyarea_key" >{peerId}</h2>
       </div>
 
       
