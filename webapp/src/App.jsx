@@ -114,13 +114,39 @@ peer.on("connection", function (conn) {
   electron.getUserId(peerId)
 
 
-  return (
-    <>
-      <video id="video" ref={currentUserVideoRef}></video>
-      <h1>{peerId}</h1>
-      {/* <button onClick={()=>{ipcRenderer("hey" , "bitch")}}>Send Data</button> */}
+  // copy text on click
 
-    </>
+  function copyOnClick() {
+    // Get the text field
+    var copyText = peerId
+  
+     // Copy the text inside the text field
+     clipboard.writeText(copyText);
+
+
+  }
+
+
+
+
+  return (
+    <div className="mainWindow">
+      <video id="video" ref={currentUserVideoRef}></video>
+      <div className="logo">
+        <h1 className="logo_ms">Microsoft</h1>
+      </div>
+      <div className="keyarea" onClick={copyOnClick}>
+      <h2 className="keyarea_key" >{peerId}</h2>
+      </div>
+
+      
+      {/* 
+      <h1>{peerId}</h1> */}
+      {/* <button onClick={()=>{ipcRenderer("hey" , "bitch")}}>Send Data</button> */}
+    </div>
+    
+
+  
   );
 
 
