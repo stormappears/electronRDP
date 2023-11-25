@@ -198,6 +198,12 @@ socket.on("qwerty_recieve", (data) => {
     robot.keyTap("backspace");
   } else if (data.key == " ") {
     robot.keyTap("space");
+  }else if (data.key == "Shift") {
+    robot.keyTap("shift");
+  } else if (data.key == "CapsLock") {
+   robot.keyTap("capslock");
+  } else if (data.key == "Enter") {
+    robot.keyTap("enter");
   } else {
     robot.keyTap(data.key);
   }
@@ -308,17 +314,17 @@ function createMainWindow() {
   });
 
   // // code for production build
-  const startUrl = url.format({
-    pathname: path.join(__dirname, "./build/index.html"),
-    protocol: "file",
-  });
+  // const startUrl = url.format({
+  //   pathname: path.join(__dirname, "./build/index.html"),
+  //   protocol: "file",
+  // });
 
   // const startUrl = url.format({
   //     pathname: path.join(__dirname, './webapp/build/index.html'),
   //     protocol : 'file'
   // })
 
-  mainWindow.loadURL(startUrl);
+  mainWindow.loadURL("http://localhost:5174/");
 
   mainWindow.once("ready-to-show", () => {
     mainWindow.show();
