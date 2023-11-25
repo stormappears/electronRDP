@@ -125,11 +125,6 @@ function createMainWindow() {
 
   //get screen information electron
 
-  
-
-
-
-
   mainWindow.webContents.session.webRequest.onBeforeSendHeaders(
     (details, callback) => {
       const { requestHeaders } = details;
@@ -212,17 +207,17 @@ function UpsertKeyValue(obj, keyToChange, value) {
   });
 
   // // code for production build
-  // const startUrl = url.format({
-  //     pathname: path.join(__dirname, './build/index.html'),
-  //     protocol : 'file'
-  // })
+  const startUrl = url.format({
+      pathname: path.join(__dirname, './build/index.html'),
+      protocol : 'file'
+  })
 
-  // const startUrl = url.format({
+  // const startUrl2 = url.format({
   //     pathname: path.join(__dirname, './webapp/build/index.html'),
   //     protocol : 'file'
   // })
 
-  mainWindow.loadURL("http://localhost:5173");
+  mainWindow.loadURL(startUrl);
 
   mainWindow.once("ready-to-show", () => {
     mainWindow.show();
