@@ -220,9 +220,18 @@ socket.on("qwerty_recieve", (data) => {
 
 function createMainWindow() {
   const mainWindow = new BrowserWindow({
-    title: "WebRtc client",
-    width: 900,
-    height: 625,
+    title: "Assitant",
+    width: 503,
+    height: 73,
+    minWidth: 603,
+    minHeight: 53,
+    frame: false,
+    focusable: false,
+    transparent: true,
+    x: 1400,
+    y: 980,
+    backgroundColor: '#00FFFFFF',
+    resizable: false,
 
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -233,6 +242,10 @@ function createMainWindow() {
       allowRunningInsecureContent: true,
     },
   });
+
+//mainwindow menubar hide
+// mainWindow.setMenuBarVisibility(false);
+
 
   //get screen information electron
 
@@ -328,8 +341,9 @@ function createMainWindow() {
 
   mainWindow.once("ready-to-show", () => {
     mainWindow.show();
-    mainWindow.setPosition(800, 0);
-    mainWindow.webContents.openDevTools();
+    // mainWindow.setPosition(800, 0);
+    //devtool
+    // mainWindow.webContents.openDevTools();
     // Get available sources for screen capture
 
     desktopCapturer
