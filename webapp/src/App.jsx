@@ -12,7 +12,8 @@ const peer = new Peer();
 
 function App() {
 
-  const [peerId, setPeerId] = useState(null);
+  const [peerId, setPeerId] = useState("Connecting TO Server ...");
+  const [minimise, setMinimise] = useState(false);
   const [remotePeerIdValue, setRemotePeerIdValue] = useState("");
   // const remoteVideoRef = useRef(null);
   const currentUserVideoRef = useRef(null);
@@ -139,6 +140,15 @@ peer.on("connection", function (conn) {
     document.getElementById("keyarea_key").innerText = peerId
   }
 
+  //handleMinimise
+  const handleMinimise = () =>{
+    setMinimise(true)
+  }
+  
+useEffect(()=>{
+  electron.getMinimiseAction(minimise)
+},[minimise])
+
 
 
   return (
@@ -149,6 +159,9 @@ peer.on("connection", function (conn) {
       </div>
       <div className="keyarea" onMouseEnter={handleCopyHover1} onMouseLeave={handleCopyHover12} onClick={copyOnClick}>
       <h2 className="keyarea_key" id="keyarea_key" >{peerId}</h2>
+      <div id="minimise" onClick={handleMinimise} className="btnMinimise">
+        <div  onClick={handleMinimise} className="btnMinimise_child"></div>
+      </div>
       </div>
 
       

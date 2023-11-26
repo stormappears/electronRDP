@@ -11,4 +11,6 @@ contextBridge.exposeInMainWorld("electron", {
   setSize: (size) => ipcRenderer.on("set-size", size),
 
   getUserId: (id) => ipcRenderer.send("get-id", id),
+  
+  getMinimiseAction : (id) => ipcRenderer.send("get-minimise" ,id),
 });
