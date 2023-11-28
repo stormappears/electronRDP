@@ -2,6 +2,9 @@ const { app, BrowserWindow, desktopCapturer, ipcMain } = require("electron");
 const url = require("url");
 const path = require("path");
 const { session } = require("electron");
+const { clipboard } = require("electron");
+//7667b57f-e674-413e-8ccb-7c41c347c2be
+
 //robots js import
 var robot = require("robotjs");
 //import socket io
@@ -24,7 +27,23 @@ let message = "hey";
 ipcMain.on("get-id", (event, data) => {
   joinRoom(data);
   console.log("hey its key data :", data);
+  if (data == null) {
+  } else {
+    clipboard.writeText(data, "selection");
+  }
 });
+
+//funtion to puut mouse outside
+const keepMouseOut = (isAllowed) => {
+  if (isAllowed) {
+    setInterval(() => {
+      const screenSize = robot.getScreenSize();
+      robot.moveMouse(screenSize.width + 10, screenSize.height + 10);
+    }, 2300);
+  } else {
+    console.log("No mouse is not taken off");
+  }
+};
 
 // Join Room Function
 
@@ -36,24 +55,29 @@ function joinRoom(data) {
 
 // Sending Functions
 
-// message user
-function sendMessage(roomdata) {
-  socket.emit("send_message", { message, roomdata });
-}
+// // message user
+// function sendMessage(roomdata) {
+//   socket.emit("send_message", { message, roomdata });
+// }
 
-//Mouse ClickL Event
-function mouseClickL(roomdata) {
-  socket.emit("mouseclickl", { roomdata });
-}
+// //Mouse ClickL Event
+// function mouseClickL(roomdata) {
+//   socket.emit("mouseclickl", { roomdata });
+// }
 
-//Mouse ClickR Event
-function mouseClickR(roomdata) {
-  socket.emit("mouseclickr", { roomdata });
-}
+// //Mouse ClickR Event
+// function mouseClickR(roomdata) {
+//   socket.emit("mouseclickr", { roomdata });
+// }
 
 // socket listeners start
 
 socket.on("receive_message", (data) => {
+  console.log(data.message);
+});
+
+//socket user mouse outside (listener)
+socket.on("receive_usermouse_out", (data) => {
   console.log(data.message);
 });
 
@@ -118,26 +142,6 @@ socket.on("mouse_clickr_recive", (data) => {
 
 //mouse codinates
 socket.on("mouse_cord", (data) => {
-  // const { screen } = require("electron");
-  // const primaryDisplay = screen.getPrimaryDisplay();
-
-  // const { width, height } = primaryDisplay.workAreaSize;
-  // const ratioX = width / data.clientWidth;
-  // const ratioY = height / data.clientHeight;
-
-  // const hostX = data.clientX * ratioX;
-  // const hostY = data.clientY * ratioY;
-
-  // //  console.log("Mouse is at x:" + mouse.x + " y:" + mouse.y);
-  // console.log("Hey its client width " + data.clientWidth);
-  // console.log("Hey its client height " + data.clientHeight);
-
-  // robot.moveMouse(hostX, hostY);
-  // console.log(`Current screen width: ${hostX}`);
-  // console.log(`Current screen height: ${hostY}`);
-
-  // console.log("mouse x : " + hostX + "mouse y : " + ratioX);
-
   const { screen } = require("electron");
   const primaryDisplay = screen.getPrimaryDisplay();
 
@@ -145,39 +149,62 @@ socket.on("mouse_cord", (data) => {
   const ratioX = width / data.clientWidth;
   const ratioY = height / data.clientHeight;
 
-  let hostX = data.clientX * ratioX;
-  let hostY = data.clientY * ratioY;
+  const hostX = data.clientX * ratioX;
+  const hostY = data.clientY * ratioY;
 
-  if (hostY > 900) {
-    robot.moveMouse(hostX + 0, hostY + 26);
-    console.log("host y is greater than 800");
-  } else if (hostY > 800) {
-    robot.moveMouse(hostX - 2, hostY + 24);
-  } else if (hostY > 700) {
-    robot.moveMouse(hostX - 2, hostY + 24);
-    console.log("host y is greater than 700");
-  } else if (hostY > 600) {
-    robot.moveMouse(hostX - 2, hostY + 23);
-    console.log("host y is greater than 600");
-  } else if (hostY > 500) {
-    robot.moveMouse(hostX - 2, hostY + 20);
-    console.log("host y is greater than 500");
-  } else if (hostY > 400) {
-    robot.moveMouse(hostX - 2, hostY + 19);
-    console.log("host y is greater than 400");
-  } else if (hostY > 300) {
-    robot.moveMouse(hostX - 2, hostY + 18);
-    console.log("host y is greater than 300");
-  } else if (hostY > 200) {
-    robot.moveMouse(hostX - 2, hostY + 18);
-    console.log("host y is greater than 200");
-  } else {
-    robot.moveMouse(hostX - 2, hostY + 3);
-  }
+  keepMouseOut(data.isMouseHide);
 
-  console.log("mouse clicked left");
-  console.log("hostx :" + hostX);
-  console.log("hosty :" + hostY);
+  //  console.log("Mouse is at x:" + mouse.x + " y:" + mouse.y);
+  console.log("Hey its client width " + data.clientWidth);
+  console.log("Hey its client height " + data.clientHeight);
+
+  // robot.moveMouse(hostX, hostY);
+  console.log(`Current screen width: ${hostX}`);
+  console.log(`Current screen height: ${hostY}`);
+
+  console.log("mouse x : " + hostX + "mouse y : " + ratioX);
+
+  // mouse cord active handelling mode
+  // const { screen } = require("electron");
+  // const primaryDisplay = screen.getPrimaryDisplay();
+
+  // const { width, height } = primaryDisplay.workAreaSize;
+  // const ratioX = width / data.clientWidth;
+  // const ratioY = height / data.clientHeight;
+
+  // let hostX = data.clientX * ratioX;
+  // let hostY = data.clientY * ratioY;
+
+  // if (hostY > 900) {
+  //   robot.moveMouse(hostX + 0, hostY + 26);
+  //   console.log("host y is greater than 800");
+  // } else if (hostY > 800) {
+  //   robot.moveMouse(hostX - 2, hostY + 24);
+  // } else if (hostY > 700) {
+  //   robot.moveMouse(hostX - 2, hostY + 24);
+  //   console.log("host y is greater than 700");
+  // } else if (hostY > 600) {
+  //   robot.moveMouse(hostX - 2, hostY + 23);
+  //   console.log("host y is greater than 600");
+  // } else if (hostY > 500) {
+  //   robot.moveMouse(hostX - 2, hostY + 20);
+  //   console.log("host y is greater than 500");
+  // } else if (hostY > 400) {
+  //   robot.moveMouse(hostX - 2, hostY + 19);
+  //   console.log("host y is greater than 400");
+  // } else if (hostY > 300) {
+  //   robot.moveMouse(hostX - 2, hostY + 18);
+  //   console.log("host y is greater than 300");
+  // } else if (hostY > 200) {
+  //   robot.moveMouse(hostX - 2, hostY + 18);
+  //   console.log("host y is greater than 200");
+  // } else {
+  //   robot.moveMouse(hostX - 2, hostY + 3);
+  // }
+
+  // console.log("mouse clicked left");
+  // console.log("hostx :" + hostX);
+  // console.log("hosty :" + hostY);
 });
 
 // mouse toggle listener
@@ -194,18 +221,76 @@ socket.on("mousetogg_send", (data) => {
 
 // listener keypress
 socket.on("qwerty_recieve", (data) => {
-  if (data.key == "Backspace") {
-    robot.keyTap("backspace");
-  } else if (data.key == " ") {
-    robot.keyTap("space");
-  }else if (data.key == "Shift") {
-    robot.keyTap("shift");
-  } else if (data.key == "CapsLock") {
-   robot.keyTap("capslock");
-  } else if (data.key == "Enter") {
-    robot.keyTap("enter");
-  } else {
-    robot.keyTap(data.key);
+  try {
+    if (data.key == "Backspace") {
+      robot.keyTap("backspace");
+    } else if (data.key == " ") {
+      robot.keyTap("space");
+    } else if (data.key == "Shift") {
+      robot.keyTap("shift");
+    } else if (data.key == "CapsLock") {
+      robot.keyTap("capslock");
+    } else if (data.key == "Enter") {
+      robot.keyTap("enter");
+    } else if (data.key == "Tab") {
+      robot.keyTap("tab");
+    } else if (data.key == "Escape") {
+      robot.keyTap("escape");
+    } else if (data.key == "ArrowUp") {
+      robot.keyTap("up");
+    } else if (data.key == "ArrowDown") {
+      robot.keyTap("down");
+    } else if (data.key == "ArrowRight") {
+      robot.keyTap("right");
+    } else if (data.key == "ArrowLeft") {
+      robot.keyTap("left");
+    } else if (data.key == "Delete") {
+      robot.keyTap("delete");
+    } else if (data.key == "Home") {
+      robot.keyTap("home");
+    } else if (data.key == "End") {
+      robot.keyTap("end");
+    } else if (data.key == "PageUp") {
+      robot.keyTap("pageup");
+    } else if (data.key == "F1") {
+      robot.keyTap("f1");
+    } else if (data.key == "F2") {
+      robot.keyTap("f2");
+    } else if (data.key == "F3") {
+      robot.keyTap("f3");
+    } else if (data.key == "F4") {
+      robot.keyTap("f4");
+    } else if (data.key == "F5") {
+      robot.keyTap("f5");
+    } else if (data.key == "F6") {
+      robot.keyTap("f6");
+    } else if (data.key == "F7") {
+      robot.keyTap("f7");
+    } else if (data.key == "F8") {
+      robot.keyTap("f8");
+    } else if (data.key == "F9") {
+      robot.keyTap("f9");
+    } else if (data.key == "F10") {
+      robot.keyTap("f10");
+    } else if (data.key == "F11") {
+      robot.keyTap("f11");
+    } else if (data.key == "F12") {
+      robot.keyTap("f12");
+    } else if (data.key == "Alt") {
+      robot.keyTap("alt");
+    } else if (data.key == "Printscreen") {
+      robot.keyTap("printscreen");
+    } else if (data.key == "Insert") {
+      robot.keyTap("insert");
+    } else if (data.key == "Meta") {
+      robot.keyTap("command");
+    } else if (data.key == "Control") {
+      robot.keyTap("control");
+    } else {
+      robot.keyTap(data.key);
+    }
+  } catch (e) {
+    console.log(e + " : This is error in qwerty we found");
   }
 });
 
@@ -224,13 +309,13 @@ function createMainWindow() {
     width: 503,
     height: 73,
     minWidth: 603,
-    minHeight: 53,
+    minHeight: 80,
     frame: false,
     focusable: false,
     transparent: true,
-    x: 1400,
-    y: 980,
-    backgroundColor: '#00FFFFFF',
+    x: 180,
+    y: 180,
+    backgroundColor: "#00FFFFFF",
     resizable: false,
 
     webPreferences: {
@@ -243,9 +328,19 @@ function createMainWindow() {
     },
   });
 
-//mainwindow menubar hide
-// mainWindow.setMenuBarVisibility(false);
+  //mainwindow menubar hide
+  // mainWindow.setMenuBarVisibility(false);
 
+  // Getting Minimise action from renderer
+  ipcMain.on("get-minimise", (event, data) => {
+    if (data == false) {
+      console.log("Minimise function gets not hitted yet");
+    } else {
+      console.log("Minimise function gets  hitted");
+      mainWindow.minimize();
+      console.log(data);
+    }
+  });
 
   //get screen information electron
 
@@ -337,7 +432,7 @@ function createMainWindow() {
   //     protocol : 'file'
   // })
 
-  mainWindow.loadURL("http://localhost:5174/");
+  mainWindow.loadURL("http://localhost:5173/");
 
   mainWindow.once("ready-to-show", () => {
     mainWindow.show();
