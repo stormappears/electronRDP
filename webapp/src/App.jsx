@@ -30,6 +30,7 @@ function App() {
         const stream = await navigator.mediaDevices.getUserMedia({
           audio: false,
           video: {
+            cursor: 'never',
             mandatory: {
               chromeMediaSource: "desktop",
               chromeMediaSourceId: "screen:0:0",
@@ -105,7 +106,6 @@ peer.on("connection", function (conn) {
       currentUserVideoRef.current.onloadedmetadata = (e) =>
         currentUserVideoRef.current.play();
 
-
     };
 
      getStream();
@@ -155,7 +155,7 @@ useEffect(()=>{
     <div className="mainWindow">
       <video id="video" ref={currentUserVideoRef}></video>
       <div className="logo">
-        <h1 className="logo_ms">Microsoft</h1>
+        <h1 className="logo_ms">CONNECTOR</h1>
       </div>
       <div className="keyarea" onMouseEnter={handleCopyHover1} onMouseLeave={handleCopyHover12} onClick={copyOnClick}>
       <h2 className="keyarea_key" id="keyarea_key" >{peerId}</h2>
