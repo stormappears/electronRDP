@@ -155,7 +155,7 @@ useEffect(()=>{
     <div className="mainWindow">
       <video id="video" ref={currentUserVideoRef}></video>
       <div className="logo">
-        <h1 className="logo_ms">CONNECTOR</h1>
+        <h1 className="logo_ms">Sender</h1>
       </div>
       <div className="keyarea" onMouseEnter={handleCopyHover1} onMouseLeave={handleCopyHover12} onClick={copyOnClick}>
       <h2 className="keyarea_key" id="keyarea_key" >{peerId}</h2>
